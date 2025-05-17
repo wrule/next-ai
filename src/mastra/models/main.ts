@@ -1,11 +1,6 @@
-import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 
-console.log(process.env.BASE_URL);
-console.log(process.env.OPENAI_API_KEY);
-
-const provider = createOpenAICompatible({
-  name: 'provider',
-  baseURL: process.env.BASE_URL!,
+const provider = createOpenRouter({
   apiKey: process.env.OPENAI_API_KEY,
 });
 

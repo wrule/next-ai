@@ -118,7 +118,7 @@ const fetchWeather = new Step({
 const planActivities = new Step({
   id: 'plan-activities',
   description: 'Suggests activities based on weather conditions',
-  execute: async ({ context, mastra }) => {
+  execute: async ({ context }) => {
     const forecast = context?.getStepResult(fetchWeather);
 
     if (!forecast || forecast.length === 0) {

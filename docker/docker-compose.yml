@@ -1,5 +1,5 @@
 services:
-  perfma-gpt:
+  my-next-app:
     image: my-next-app
     container_name: my-next-app
     environment:

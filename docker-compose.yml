@@ -5,7 +5,7 @@ services:
     environment:
       - JIMAO=1
     ports:
-      - "42800-42900:42800-42900"
+      - "42800-43000:42800-43000"
     volumes:
       - ./:/root/my-next-app
     command: node ./docker-test.js

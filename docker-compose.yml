@@ -5,7 +5,8 @@ services:
     environment:
       - MY_NEXT_APP=1
     ports:
-      - "42800-43000:42800-43000"
+      - "42800:42800"
+      - "42900:42900"
     volumes:
       - ./:/root/my-next-app
     command: npm run start

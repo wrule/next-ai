@@ -1,2 +1,2 @@
 #!/bin/bash
-docker buildx build --platform=linux/amd64 -t my-image-0 .
+docker buildx build --platform=linux/amd64 -t my-next-app .

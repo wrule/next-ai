@@ -3,7 +3,7 @@ services:
     image: my-next-app
     container_name: my-next-app
     environment:
-      - JIMAO=1
+      - MY_NEXT_APP=1
     ports:
       - "42800-43000:42800-43000"
     volumes:

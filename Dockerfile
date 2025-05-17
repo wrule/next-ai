@@ -12,4 +12,4 @@ RUN apt update && apt install -y \
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-WORKDIR /root/server
+WORKDIR /root/my-next-app

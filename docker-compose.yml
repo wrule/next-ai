@@ -1,0 +1,12 @@
+services:
+  perfma-gpt:
+    image: my-next-app
+    container_name: my-next-app
+    environment:
+      - JIMAO=1
+    ports:
+      - "42800-42900:42800-42900"
+    volumes:
+      - ./:/root/my-next-app
+    command: node ./index.js
+    restart: unless-stopped

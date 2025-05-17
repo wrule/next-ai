@@ -8,5 +8,5 @@ services:
       - "42800-42900:42800-42900"
     volumes:
       - ./:/root/my-next-app
-    command: node ./index.js
+    command: node ./docker-test.js
     restart: unless-stopped

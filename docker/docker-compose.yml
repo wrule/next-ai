@@ -19,7 +19,6 @@ services:
       - ../:/root/my-next-app
     command: npm install
     restart: no
-    auto_remove: true
   my-next-app-build:
     image: my-next-app
     container_name: my-next-app-build
@@ -27,4 +26,3 @@ services:
       - ../:/root/my-next-app
     command: npm run build
     restart: no
-    auto_remove: true

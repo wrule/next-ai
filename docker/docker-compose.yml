@@ -12,3 +12,19 @@ services:
       - ../:/root/my-next-app
     command: npm run start
     restart: unless-stopped
+  my-next-app-install:
+    image: my-next-app
+    container_name: my-next-app-install
+    volumes:
+      - ../:/root/my-next-app
+    command: npm install
+    restart: no
+    auto_remove: true
+  my-next-app-build:
+    image: my-next-app
+    container_name: my-next-app-build
+    volumes:
+      - ../:/root/my-next-app
+    command: npm run build
+    restart: no
+    auto_remove: true

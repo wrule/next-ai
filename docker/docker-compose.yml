@@ -10,6 +10,17 @@ services:
       - ../:/root/my-next-app
     command: npm run start
     restart: unless-stopped
+  my-next-app-dev:
+    image: my-next-app
+    container_name: my-next-app-dev
+    environment:
+      - MY_NEXT_APP=1
+    ports:
+      - "42900:42900"
+    volumes:
+      - ../:/root/my-next-app
+    command: npm run dev
+    restart: unless-stopped
   my-next-app-install:
     image: my-next-app
     container_name: my-next-app-install

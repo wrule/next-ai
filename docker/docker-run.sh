@@ -1,2 +1,2 @@
 #!/bin/bash
-docker compose up -d
+docker compose up my-next-app -d

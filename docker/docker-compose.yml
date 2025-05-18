@@ -6,8 +6,6 @@ services:
       - MY_NEXT_APP=1
     ports:
       - "42800:42800"
-      - "42900:42900"
-      - "42901:4111"
     volumes:
       - ../:/root/my-next-app
     command: npm run start

@@ -35,3 +35,12 @@ services:
       - ../:/root/my-next-app
     command: npm run build
     restart: "no"
+  my-next-app-start:
+    image: my-next-app
+    container_name: my-next-app-start
+    ports:
+      - "42800:42800"
+    volumes:
+      - ../:/root/my-next-app
+    command: npm run start
+    restart: "no"

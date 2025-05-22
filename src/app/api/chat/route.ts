@@ -21,11 +21,12 @@ export async function GET(request: NextRequest) {
   // }
 
   const encoder = new TextEncoder();
+  let timer: NodeJS.Timeout;
   const responseStream = new ReadableStream({
     start: (controller) => {
       let count = 0;
-      const timer = setInterval(() => {
-        if (count < 5) {
+      timer = setInterval(() => {
+        if (count < 100) {
           controller.enqueue(encoder.encode('你好，世界\n'));
         } else {
           controller.enqueue(encoder.encode('结束\n'));
@@ -33,7 +34,10 @@ export async function GET(request: NextRequest) {
           clearInterval(timer);
         }
         count++;
-      }, 1000);
+      }, 100);
+    },
+    cancel: (reason?: any) => {
+      clearInterval(timer);
     },
   });
   return new Response(responseStream, {

@@ -27,7 +27,7 @@ const openaiStream = (vercelStream: ReadableStream) => {
       let sendText = chatCompletionChunk(uid, '');
       try {
         const text = decoder.decode(chunk);
-        console.log(1, text);
+        console.log('chunk:', text);
         if (text.startsWith('0:')) {
           sendText = chatCompletionChunk(uid, JSON.parse(text.slice(2)));
         } else if (text.startsWith('d:')) {

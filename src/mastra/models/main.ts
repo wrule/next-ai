@@ -1,5 +1,3 @@
-import { createQwen } from 'qwen-ai-provider';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
 // const provider = createOpenRouter({

@@ -21,6 +21,7 @@ const chatCompletionChunk = (uid: string, content: string) => {
 
 const openaiStream = (vercelStream: ReadableStream) => {
   const uid = crypto.randomUUID();
+  const encoder = new TextEncoder();
   const decoder = new TextDecoder('utf-8');
   const openAiTransform = new TransformStream({
     transform: (chunk, controller) => {
@@ -35,7 +36,7 @@ const openaiStream = (vercelStream: ReadableStream) => {
       } catch (error) {
         console.error(error);
       }
-      controller.enqueue(sendText);
+      controller.enqueue(encoder.encode(sendText));
     },
   });
   return vercelStream.pipeThrough(openAiTransform);

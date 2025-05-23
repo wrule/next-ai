@@ -24,14 +24,18 @@ const openaiStream = (vercelStream: ReadableStream) => {
   const decoder = new TextDecoder('utf-8');
   const openAiTransform = new TransformStream({
     transform: (chunk, controller) => {
-      const text = decoder.decode(chunk);
-      if (text.startsWith('0:')) {
-        controller.enqueue(chatCompletionChunk(uid, JSON.parse(text.slice(2))));
-      } else if (text.startsWith('d:')) {
-        controller.enqueue('data: [DONE]\n\n');
-      } else {
-        controller.enqueue(chatCompletionChunk(uid, ''));
+      let sendText = chatCompletionChunk(uid, '');
+      try {
+        const text = decoder.decode(chunk);
+        if (text.startsWith('0:')) {
+          sendText = chatCompletionChunk(uid, JSON.parse(text.slice(2)));
+        } else if (text.startsWith('d:')) {
+          sendText = 'data: [DONE]\n\n';
+        }
+      } catch (error) {
+        console.error(error);
       }
+      controller.enqueue(sendText);
     },
   });
   return vercelStream.pipeThrough(openAiTransform);

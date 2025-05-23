@@ -21,13 +21,13 @@ const chatCompletionChunk = (uid: string, content: string) => {
 
 const openaiStream = (vercelStream: ReadableStream) => {
   const uid = crypto.randomUUID();
-  const encoder = new TextEncoder();
-  const decoder = new TextDecoder('utf-8');
+  const decoder = new TextDecoder();
   const openAiTransform = new TransformStream({
     transform: (chunk, controller) => {
       let sendText = chatCompletionChunk(uid, '');
       try {
         const text = decoder.decode(chunk);
+        console.log(1, text);
         if (text.startsWith('0:')) {
           sendText = chatCompletionChunk(uid, JSON.parse(text.slice(2)));
         } else if (text.startsWith('d:')) {
@@ -36,7 +36,7 @@ const openaiStream = (vercelStream: ReadableStream) => {
       } catch (error) {
         console.error(error);
       }
-      controller.enqueue(encoder.encode(sendText));
+      controller.enqueue(sendText);
     },
   });
   return vercelStream.pipeThrough(openAiTransform);

@@ -44,13 +44,13 @@ export async function POST(
   const uid = crypto.randomUUID();
   const agent = mastra.getAgent(params.agentName);
   const requestParams = await paramsCollector(request);
-  console.log(requestParams);
   const messages = requestParams.messages;
   delete requestParams.messages;
-  const stream = requestParams.stream;
+  const stream = !!requestParams.stream;
   delete requestParams.stream;
+  delete requestParams.model;
   if (stream) {
-    const vercelStream = (await agent.stream(messages)).toDataStream();
+    const vercelStream = (await agent.stream(messages, requestParams)).toDataStream();
     return new Response(openaiStream(uid, vercelStream), {
       headers: {
         'Content-Type': 'text/event-stream; charset=utf-8',
@@ -60,7 +60,7 @@ export async function POST(
       },
     });
   } else {
-    const { text: content } = await agent.generate(messages);
+    const { text: content } = await agent.generate(messages, requestParams);
     return NextResponse.json(chatCompletion(uid, content));
   }
 }

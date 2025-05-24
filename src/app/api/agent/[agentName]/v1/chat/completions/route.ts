@@ -10,6 +10,13 @@ const paramsCollector = async (request: NextRequest) => {
   }
 }
 
+const sseHeaders = {
+  'Content-Type': 'text/event-stream; charset=utf-8',
+  'Cache-Control': 'no-cache, no-store, must-revalidate',
+  'Connection': 'keep-alive',
+  'X-Content-Type-Options': 'nosniff',
+};
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { agentName: Parameters<typeof mastra.getAgent>[0] } },
@@ -23,14 +30,7 @@ export async function GET(
   delete requestParams.stream;
   if (stream) {
     const vercelStream = (await agent.stream(query, requestParams)).toDataStream();
-    return new Response(openaiStream(uid, vercelStream), {
-      headers: {
-        'Content-Type': 'text/event-stream; charset=utf-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Connection': 'keep-alive',
-        'X-Content-Type-Options': 'nosniff',
-      },
-    });
+    return new Response(openaiStream(uid, vercelStream), { headers: sseHeaders });
   } else {
     const { text: content } = await agent.generate(query, requestParams);
     return NextResponse.json(chatCompletion(uid, content));
@@ -51,14 +51,7 @@ export async function POST(
   delete requestParams.model;
   if (stream) {
     const vercelStream = (await agent.stream(messages, requestParams)).toDataStream();
-    return new Response(openaiStream(uid, vercelStream), {
-      headers: {
-        'Content-Type': 'text/event-stream; charset=utf-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Connection': 'keep-alive',
-        'X-Content-Type-Options': 'nosniff',
-      },
-    });
+    return new Response(openaiStream(uid, vercelStream), { headers: sseHeaders });
   } else {
     const { text: content } = await agent.generate(messages, requestParams);
     return NextResponse.json(chatCompletion(uid, content));

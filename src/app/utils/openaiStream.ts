@@ -41,7 +41,7 @@ const openaiStream = (uid: string, vercelStream: ReadableStream) => {
   const decoder = new TextDecoder();
   const openAiTransform = new TransformStream({
     transform: (chunk, controller) => {
-      let sendText = chatCompletionChunk(uid, '');
+      let sendText = '';
       try {
         const text = decoder.decode(chunk);
         // console.log('chunk:', text);
@@ -49,6 +49,8 @@ const openaiStream = (uid: string, vercelStream: ReadableStream) => {
           sendText = chatCompletionChunk(uid, JSON.parse(text.slice(2)));
         } else if (text.startsWith('d:')) {
           sendText = 'data: [DONE]\n\n';
+        } else {
+          sendText = chatCompletionChunk(uid, '');
         }
       } catch (error) {
         console.error(error);

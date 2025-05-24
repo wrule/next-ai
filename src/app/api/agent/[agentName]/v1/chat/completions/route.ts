@@ -1,7 +1,6 @@
 import { mastra } from '@/mastra';
 import { NextRequest, NextResponse } from 'next/server';
 import openaiStream, { chatCompletion } from '@/app/utils/openaiStream';
-import { Agent } from '@mastra/core';
 
 const sseHeaders = {
   'Content-Type': 'text/event-stream; charset=utf-8',

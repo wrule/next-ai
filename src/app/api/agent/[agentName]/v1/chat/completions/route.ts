@@ -20,6 +20,13 @@ const openaiResponse = async (agent: ReturnType<typeof mastra.getAgent>, stream:
   }
 }
 
+const error500 = (error: any) => {
+  return NextResponse.json({
+    success: false,
+    message: error?.message,
+  }, { status: 500 });
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { agentName: Parameters<typeof mastra.getAgent>[0] } },
@@ -33,10 +40,7 @@ export async function GET(
     delete requestParams.stream;
     return await openaiResponse(agent, stream, query, requestParams);
   } catch (error: any) {
-    return NextResponse.json({
-      success: false,
-      message: error?.message,
-    }, { status: 500 });
+    return error500(error);
   }
 }
 
@@ -54,9 +58,6 @@ export async function POST(
     delete requestParams.model;
     return await openaiResponse(agent, stream, messages, requestParams);
   } catch (error: any) {
-    return NextResponse.json({
-      success: false,
-      message: error?.message,
-    }, { status: 500 });
+    return error500(error);
   }
 }

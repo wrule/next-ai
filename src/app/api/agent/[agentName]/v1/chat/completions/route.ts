@@ -10,7 +10,7 @@ const sseHeaders = {
   'X-Content-Type-Options': 'nosniff',
 };
 
-const a = async (agent: Agent, stream: boolean, messages: any, requestParams: any) => {
+const openaiResponse = async (agent: ReturnType<typeof mastra.getAgent>, stream: boolean, messages: any, requestParams: any) => {
   const uid = crypto.randomUUID();
   if (stream) {
     const vercelStream = (await agent.stream(messages, requestParams)).toDataStream();
@@ -32,15 +32,7 @@ export async function GET(
     delete requestParams.query;
     const stream = requestParams.stream !== 'false';
     delete requestParams.stream;
-
-    const uid = crypto.randomUUID();
-    if (stream) {
-      const vercelStream = (await agent.stream(query, requestParams)).toDataStream();
-      return new Response(openaiStream(uid, vercelStream), { headers: sseHeaders });
-    } else {
-      const { text: content } = await agent.generate(query, requestParams);
-      return NextResponse.json(chatCompletion(uid, content));
-    }
+    return await openaiResponse(agent, stream, query, requestParams);
   } catch (error: any) {
     return NextResponse.json({
       success: false,
@@ -60,13 +52,5 @@ export async function POST(
   const stream = !!requestParams.stream;
   delete requestParams.stream;
   delete requestParams.model;
-
-  const uid = crypto.randomUUID();
-  if (stream) {
-    const vercelStream = (await agent.stream(messages, requestParams)).toDataStream();
-    return new Response(openaiStream(uid, vercelStream), { headers: sseHeaders });
-  } else {
-    const { text: content } = await agent.generate(messages, requestParams);
-    return NextResponse.json(chatCompletion(uid, content));
-  }
+  return await openaiResponse(agent, stream, messages, requestParams);
 }

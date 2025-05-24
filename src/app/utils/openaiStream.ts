@@ -37,8 +37,7 @@ const chatCompletion = (uid: string, content: string) => {
   };
 }
 
-const openaiStream = (vercelStream: ReadableStream) => {
-  const uid = crypto.randomUUID();
+const openaiStream = (uid: string, vercelStream: ReadableStream) => {
   const decoder = new TextDecoder();
   const openAiTransform = new TransformStream({
     transform: (chunk, controller) => {

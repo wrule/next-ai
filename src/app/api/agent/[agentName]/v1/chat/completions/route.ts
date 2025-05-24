@@ -14,6 +14,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { agentName: Parameters<typeof mastra.getAgent>[0] } },
 ) {
+  const uid = crypto.randomUUID();
   const agent = mastra.getAgent(params.agentName);
   const requestParams = await paramsCollector(request);
   const query = requestParams.query || 'hello';
@@ -22,7 +23,7 @@ export async function GET(
   delete requestParams.stream;
   if (stream) {
     const vercelStream = (await agent.stream(query, requestParams)).toDataStream();
-    return new Response(openaiStream(vercelStream), {
+    return new Response(openaiStream(uid, vercelStream), {
       headers: {
         'Content-Type': 'text/event-stream; charset=utf-8',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -32,7 +33,7 @@ export async function GET(
     });
   } else {
     const { text: content } = await agent.generate(query, requestParams);
-    return NextResponse.json(chatCompletion('1234', content));
+    return NextResponse.json(chatCompletion(uid, content));
   }
 }
 

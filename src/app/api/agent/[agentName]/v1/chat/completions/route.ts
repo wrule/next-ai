@@ -2,9 +2,12 @@ import { mastra } from '@/mastra';
 import { NextRequest, NextResponse } from 'next/server';
 import openaiStream from '@/app/utils/openaiStream';
 
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { agentName: Parameters<typeof mastra.getAgent>[0] } },
+) {
   const { searchParams } = request.nextUrl;
-  const agent = mastra.getAgent('BlankAgent');
+  const agent = mastra.getAgent(params.agentName);
   const vercelStream = (await agent.stream(searchParams.get('query') ?? '你好')).toDataStream();
   return new Response(openaiStream(vercelStream), {
     headers: {

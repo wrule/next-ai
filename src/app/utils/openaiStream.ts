@@ -3,7 +3,6 @@ export
 const chatCompletionChunk = (uid: string, content: string) => {
   return 'data: ' + JSON.stringify({
     id: uid,
-    provider: 'agent',
     model: 'agent',
     object: 'chat.completion.chunk',
     created: Math.floor(Date.now() / 1000),
@@ -17,6 +16,25 @@ const chatCompletionChunk = (uid: string, content: string) => {
       },
     ],
   }) + '\n\n';
+}
+
+export
+const chatCompletion = (uid: string, content: string) => {
+  return {
+    id: uid,
+    model: 'agent',
+    object: 'chat.completion',
+    created: Math.floor(Date.now() / 1000),
+    choices: [
+      {
+        index: 0,
+        message: {
+          role: 'assistant',
+          content,
+        },
+      },
+    ],
+  };
 }
 
 const openaiStream = (vercelStream: ReadableStream) => {

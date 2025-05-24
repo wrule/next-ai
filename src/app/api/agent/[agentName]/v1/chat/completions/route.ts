@@ -2,14 +2,6 @@ import { mastra } from '@/mastra';
 import { NextRequest, NextResponse } from 'next/server';
 import openaiStream, { chatCompletion } from '@/app/utils/openaiStream';
 
-const paramsCollector = async (request: NextRequest) => {
-  if (request.method === 'GET') {
-    return Object.fromEntries(request.nextUrl.searchParams);
-  } else {
-    return await request.json();
-  }
-}
-
 const sseHeaders = {
   'Content-Type': 'text/event-stream; charset=utf-8',
   'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -24,7 +16,7 @@ export async function GET(
   try {
     const uid = crypto.randomUUID();
     const agent = mastra.getAgent(params.agentName);
-    const requestParams = await paramsCollector(request);
+    const requestParams = Object.fromEntries(request.nextUrl.searchParams);
     const query = requestParams.query || 'hello';
     delete requestParams.query;
     const stream = requestParams.stream !== 'false';
@@ -50,7 +42,7 @@ export async function POST(
 ) {
   const uid = crypto.randomUUID();
   const agent = mastra.getAgent(params.agentName);
-  const requestParams = await paramsCollector(request);
+  const requestParams = await request.json();
   const messages = requestParams.messages;
   delete requestParams.messages;
   const stream = !!requestParams.stream;

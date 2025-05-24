@@ -45,12 +45,19 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { agentName: Parameters<typeof mastra.getAgent>[0] } },
 ) {
-  const agent = mastra.getAgent(params.agentName);
-  const requestParams = await request.json();
-  const messages = requestParams.messages;
-  delete requestParams.messages;
-  const stream = !!requestParams.stream;
-  delete requestParams.stream;
-  delete requestParams.model;
-  return await openaiResponse(agent, stream, messages, requestParams);
+  try {
+    const agent = mastra.getAgent(params.agentName);
+    const requestParams = await request.json();
+    const messages = requestParams.messages;
+    delete requestParams.messages;
+    const stream = !!requestParams.stream;
+    delete requestParams.stream;
+    delete requestParams.model;
+    return await openaiResponse(agent, stream, messages, requestParams);
+  } catch (error: any) {
+    return NextResponse.json({
+      success: false,
+      message: error?.message,
+    }, { status: 500 });
+  }
 }

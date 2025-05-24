@@ -17,6 +17,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const body = await request.json();
+  console.log(1234, body);
   const { searchParams } = request.nextUrl;
   const agent = mastra.getAgent('BlankAgent');
   const vercelStream = (await agent.stream(searchParams.get('query') ?? '你好')).toDataStream();

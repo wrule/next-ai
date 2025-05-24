@@ -1,6 +1,6 @@
 import { mastra } from '@/mastra';
 import { NextRequest, NextResponse } from 'next/server';
-import openaiStream from '@/app/utils/openaiStream';
+import openaiStream, { chatCompletion } from '@/app/utils/openaiStream';
 
 const paramsCollector = async (request: NextRequest) => {
   if (request.method === 'GET') {
@@ -31,8 +31,8 @@ export async function GET(
       },
     });
   } else {
-    const { text, usage } = await agent.generate(query, requestParams);
-    return NextResponse.json({ text, usage });
+    const { text: content } = await agent.generate(query, requestParams);
+    return NextResponse.json(chatCompletion('1234', content));
   }
 }
 

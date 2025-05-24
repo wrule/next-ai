@@ -5,7 +5,7 @@ const chatCompletionChunk = (uid: string, content: string) => {
     id: uid,
     provider: 'agent',
     model: 'agent',
-    object: 'chat.completion',
+    object: 'chat.completion.chunk',
     created: Math.floor(Date.now() / 1000),
     choices: [
       {

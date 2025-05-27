@@ -2,6 +2,7 @@ services:
   next-ai:
     image: next-ai-node:22
     container_name: next-ai
+    working_dir: /root/next-ai
     environment:
       - NEXT_AI=1
     ports:
@@ -13,6 +14,7 @@ services:
   next-ai-install:
     image: next-ai-node:22
     container_name: next-ai-install
+    working_dir: /root/next-ai
     volumes:
       - ../:/root/next-ai
     command: npm install
@@ -20,6 +22,7 @@ services:
   next-ai-dev:
     image: next-ai-node:22
     container_name: next-ai-dev
+    working_dir: /root/next-ai
     ports:
       - "42900:42900"
     volumes:
@@ -29,6 +32,7 @@ services:
   next-ai-build:
     image: next-ai-node:22
     container_name: next-ai-build
+    working_dir: /root/next-ai
     volumes:
       - ../:/root/next-ai
     command: npm run build
@@ -36,6 +40,7 @@ services:
   next-ai-start:
     image: next-ai-node:22
     container_name: next-ai-start
+    working_dir: /root/next-ai
     ports:
       - "42800:42800"
     volumes:

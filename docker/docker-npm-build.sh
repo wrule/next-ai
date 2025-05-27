@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose run --rm my-next-app-build
+docker-compose run --rm next-ai-build

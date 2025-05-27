@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose up -d my-next-app
+docker-compose up -d next-ai

@@ -1,6 +1,6 @@
 services:
   next-ai:
-    image: next-ai-node
+    image: next-ai-node:22
     container_name: next-ai
     environment:
       - NEXT_AI=1
@@ -11,14 +11,14 @@ services:
     command: npm run start
     restart: "unless-stopped"
   next-ai-install:
-    image: next-ai-node
+    image: next-ai-node:22
     container_name: next-ai-install
     volumes:
       - ../:/root/next-ai
     command: npm install
     restart: "no"
   next-ai-dev:
-    image: next-ai-node
+    image: next-ai-node:22
     container_name: next-ai-dev
     ports:
       - "42900:42900"
@@ -27,14 +27,14 @@ services:
     command: npm run dev
     restart: "no"
   next-ai-build:
-    image: next-ai-node
+    image: next-ai-node:22
     container_name: next-ai-build
     volumes:
       - ../:/root/next-ai
     command: npm run build
     restart: "no"
   next-ai-start:
-    image: next-ai-node
+    image: next-ai-node:22
     container_name: next-ai-start
     ports:
       - "42800:42800"

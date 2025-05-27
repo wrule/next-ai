@@ -1,44 +1,44 @@
 services:
-  my-next-app:
-    image: my-next-app
-    container_name: my-next-app
+  next-ai:
+    image: next-ai-node
+    container_name: next-ai
     environment:
-      - MY_NEXT_APP=1
+      - NEXT_AI=1
     ports:
       - "42800:42800"
     volumes:
-      - ../:/root/my-next-app
+      - ../:/root/next-ai
     command: npm run start
     restart: "unless-stopped"
-  my-next-app-install:
-    image: my-next-app
-    container_name: my-next-app-install
+  next-ai-install:
+    image: next-ai-node
+    container_name: next-ai-install
     volumes:
-      - ../:/root/my-next-app
+      - ../:/root/next-ai
     command: npm install
     restart: "no"
-  my-next-app-dev:
-    image: my-next-app
-    container_name: my-next-app-dev
+  next-ai-dev:
+    image: next-ai-node
+    container_name: next-ai-dev
     ports:
       - "42900:42900"
     volumes:
-      - ../:/root/my-next-app
+      - ../:/root/next-ai
     command: npm run dev
     restart: "no"
-  my-next-app-build:
-    image: my-next-app
-    container_name: my-next-app-build
+  next-ai-build:
+    image: next-ai-node
+    container_name: next-ai-build
     volumes:
-      - ../:/root/my-next-app
+      - ../:/root/next-ai
     command: npm run build
     restart: "no"
-  my-next-app-start:
-    image: my-next-app
-    container_name: my-next-app-start
+  next-ai-start:
+    image: next-ai-node
+    container_name: next-ai-start
     ports:
       - "42800:42800"
     volumes:
-      - ../:/root/my-next-app
+      - ../:/root/next-ai
     command: npm run start
     restart: "no"

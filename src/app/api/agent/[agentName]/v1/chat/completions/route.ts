@@ -25,10 +25,10 @@ const openaiResponse = async (
   }
 }
 
-const error500 = (error: any) => {
+const error500 = (error: unknown) => {
   return NextResponse.json({
     success: false,
-    message: error?.message,
+    message: (error as Error)?.message,
   }, { status: 500 });
 }
 

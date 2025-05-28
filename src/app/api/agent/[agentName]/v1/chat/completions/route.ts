@@ -13,7 +13,7 @@ const openaiResponse = async (
   agent: ReturnType<typeof mastra.getAgent>,
   stream: boolean,
   messages: Parameters<typeof agent.stream>[0],
-  requestParams: Record<string, any>,
+  requestParams: Record<string, unknown>,
 ) => {
   const uid = crypto.randomUUID();
   if (stream) {

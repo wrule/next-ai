@@ -9,7 +9,12 @@ const sseHeaders = {
   'X-Content-Type-Options': 'nosniff',
 };
 
-const openaiResponse = async (agent: ReturnType<typeof mastra.getAgent>, stream: boolean, messages: any, requestParams: any) => {
+const openaiResponse = async (
+  agent: ReturnType<typeof mastra.getAgent>,
+  stream: boolean,
+  messages: Parameters<typeof agent.stream>[0],
+  requestParams: Record<string, any>,
+) => {
   const uid = crypto.randomUUID();
   if (stream) {
     const vercelStream = (await agent.stream(messages, requestParams)).toDataStream();
@@ -39,7 +44,7 @@ export async function GET(
     const stream = requestParams.stream !== 'false';
     delete requestParams.stream;
     return await openaiResponse(agent, stream, query, requestParams);
-  } catch (error: any) {
+  } catch (error) {
     return error500(error);
   }
 }
@@ -57,7 +62,7 @@ export async function POST(
     delete requestParams.stream;
     delete requestParams.model;
     return await openaiResponse(agent, stream, messages, requestParams);
-  } catch (error: any) {
+  } catch (error) {
     return error500(error);
   }
 }
